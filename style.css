@@ -1,0 +1,115 @@
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+h2 {
+    width: 100%;
+    margin-top: 15px;
+    color: grey;
+    text-align: center;
+    font-size: 30px;
+}
+
+ul {
+    margin-top: 30px;
+    margin-left: 0; 
+    padding-left: 0;
+}
+
+/* input */
+.newToDo {
+    display: inline-block;
+    vertical-align: middle;
+    width: 101%;
+    margin-left: 0px;
+    height: 30px;
+    font-size: 18px;
+    border: groove;
+}
+
+.todo-id {
+    padding: 5px;
+    border-radius: 3px;
+
+    list-style-type: none;;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+span[data-key = 'true'] {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.btn {
+    vertical-align: middle;
+    background-color: #676a70;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-left: 2px;
+}
+
+.redbtn {
+    background-color: #c99391;
+    padding: 1px 10px;
+    font-size: 16px;
+}
+.greenbtn {
+    background-color: #52bf4e;
+    padding: 1px 10px;
+    font-size: 16px;
+}
+.bluebtn {
+    background-color: #8dafe3;
+    padding: 1px 10px;
+    font-size: 16px;
+}
+.yellowbtn {
+    background-color: #a9db8c;
+    padding: 1px 10px;
+    font-size: 16px;
+}
+
+.color-button {
+    margin-top: 5px;
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.red {
+    background-color: #c99391;
+    border: 1px double #c99391;
+}
+.green {
+    background-color: #52bf4e;
+    border: 1px double #52bf4e;
+}
+.blue {
+    background-color: #8dafe3;
+    border: 1px double #8dafe3;
+}
+.yellow {
+    background-color: #a9db8c;
+    border: 1px double #a9db8c;
+}
+
+.left {
+    margin-right: auto;
+    margin-left: 0px; 
+}
+.right {
+    margin-right: 0px;
+    margin-left: auto; 
+}
+
+.image {
+    width: 20px;
+    height: 20px;
+    background-color: none;
+}
