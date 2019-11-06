@@ -1,10 +1,13 @@
-let toDoItems = [];
+const localStorageInitValue = localStorage.getItem('1');
+let toDoItems = JSON.parse(localStorageInitValue) || [];
 const color = ['red', 'green', 'blue', 'yellow'];
-
 const ul = document.getElementById("ul"); // список
 const input = document.getElementById("123"); // поле ввода
 const container = document.getElementById("container"); // блок с toDo
 const colorButton = document.getElementById("colorButton"); // блок с кнопками
+
+// console.log('localStorageInitValue', localStorageInitValue);
+// console.log('toDoItems', toDoItems);
 
 let groupButtons = [{ type: "button", className: "check-task btn", caseName: "check-task", value: "check" },
 { type: "button", className: "delete-task btn", caseName: "delete-task", value: "del" },
@@ -49,10 +52,12 @@ function addToDo(task) {
         checked: '',
     };
     toDoItems.push(toDo);
-    createlist(toDoItems);
+
+    localStorage.setItem('1', JSON.stringify(toDoItems));
+    createlist(localStorage.getItem('1'));
 }
 
-const form = document.getElementsByClassName('newToDo')[0]; // добавление объекта в массив по нажатию enter
+const form = document.getElementsByClassName('newToDo')[0];
 form.addEventListener('keypress', event => {
     text = input.value
     if (event.key === "Enter" && text !== '') {
@@ -61,13 +66,24 @@ form.addEventListener('keypress', event => {
     }
 });
 
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return str;
+    }
+    return JSON.parse(str);
+}
+
 function createlist(arr) {
+    arr = IsJsonString(arr)
+
     let listToDelete = document.getElementsByTagName('ul')[0];
     listToDelete.innerHTML = "";
-    for (let i = 0; i < arr.length; i++) {
+    arr && arr.forEach((itemMain) => {
 
         const li = document.createElement("li");
-        li.className = `todo-id ${arr[i].color}`;
+        li.className = `todo-id ${itemMain.color}`;
         ul.prepend(li);
 
         const divLeft = document.createElement("div");
@@ -80,9 +96,9 @@ function createlist(arr) {
 
         const checkbox = document.createElement("input"); // checkbox
         checkbox.type = "checkbox";
-        checkbox.checked = `${arr[i].checked}`;
+        checkbox.checked = `${itemMain.checked}`;
         checkbox.className = "check-task btn";
-        checkbox.id = `${arr[i].id}`;
+        checkbox.id = `${itemMain.id}`;
         checkbox.onclick = function flag(e) {
             toDoItems.map((item) => {
                 (item.id == e.target.id && item.checked == '') ? (item.flag = !item.flag, item.checked = '1') :
@@ -91,11 +107,11 @@ function createlist(arr) {
         }
         divLeft.prepend(checkbox);
 
-        const outputText = document.createElement("span");  // окружение текста
-        outputText.dataset.key = `${arr[i].complete}`;
+        const outputText = document.createElement("span");
+        outputText.dataset.key = `${itemMain.complete}`;
         divLeft.append(outputText);
 
-        let textnode = document.createTextNode(`${arr[i].task}`); // сам текст
+        let textnode = document.createTextNode(`${itemMain.task}`);
         outputText.prepend(textnode);
 
         function createSingleButtons() {
@@ -104,7 +120,7 @@ function createlist(arr) {
                 name.value = item.value;
                 name.type = item.type;
                 name.className = item.className;
-                name.id = `${item.caseName + arr[i].id}`;
+                name.id = `${item.caseName + itemMain.id}`;
                 name.onclick = function (e) {
                     buttonForSingleTask(e, item.caseName);
                 }
@@ -112,7 +128,7 @@ function createlist(arr) {
             })
         }
         createSingleButtons();
-    }
+    })
 }
 
 function buttonForGroupTasks(e, r) {
@@ -139,12 +155,12 @@ function buttonForGroupTasks(e, r) {
         }
     })
     createlist(toDoItems);
+    localStorage.setItem('1', JSON.stringify(toDoItems));
+
 }
 
 function buttonForSingleTask(e, r) {
     toDoItems.map((item) => {
-        console.log('item', item);
-        console.log('target', e.target);
         switch (r) {
             case 'check':
                 'check' + item.id == e.target.id && (item.complete = !item.complete);
@@ -166,5 +182,7 @@ function buttonForSingleTask(e, r) {
                 break;
         }
     })
+    localStorage.setItem('1', JSON.stringify(toDoItems));
     createlist(toDoItems);
 }
+createlist(localStorage.getItem('1'));
