@@ -1,41 +1,35 @@
 const localStorageInitValue = localStorage.getItem('1');
 let toDoItems = JSON.parse(localStorageInitValue) || [];
 const color = ['red', 'green', 'blue', 'yellow'];
-const ul = document.getElementById("ul"); // список
-const input = document.getElementById("123"); // поле ввода
-const container = document.getElementById("container"); // блок с toDo
-const colorButton = document.getElementById("colorButton"); // блок с кнопками
+const ul = document.getElementById('ul');
+const input = document.getElementById('123');
+const container = document.getElementById('container');
+const colorButton = document.getElementById('colorButton');
 
-// console.log('localStorageInitValue', localStorageInitValue);
-// console.log('toDoItems', toDoItems);
+const groupButtons = [{ type: 'button', className: 'check-task btn', caseName: 'check-task', value: 'check' },
+{ type: 'button', className: 'delete-task btn', caseName: 'delete-task', value: 'del' },
+{ type: 'button', className: 'redbtn btn', caseName: 'redbtn', value: null },
+{ type: 'button', className: 'greenbtn btn', caseName: 'greenbtn', value: null },
+{ type: 'button', className: 'bluebtn btn', caseName: 'bluebtn', value: null },
+{ type: 'button', className: 'yellowbtn btn', caseName: 'yellowbtn', value: null }];
 
-let groupButtons = [{ type: "button", className: "check-task btn", caseName: "check-task", value: "check" },
-{ type: "button", className: "delete-task btn", caseName: "delete-task", value: "del" },
-{ type: "button", className: "redbtn btn", caseName: "redbtn", value: null },
-{ type: "button", className: "greenbtn btn", caseName: "greenbtn", value: null },
-{ type: "button", className: "bluebtn btn", caseName: "bluebtn", value: null },
-{ type: "button", className: "yellowbtn btn", caseName: "yellowbtn", value: null }];
+const singleButtons = [{ type: 'button', className: 'delete-task btn', caseName: 'delete', value: 'del' },
+{ type: 'button', className: 'check-task btn', caseName: 'check', value: 'check' },
+{ type: 'button', className: 'redbtn btn', caseName: 'red', value: null },
+{ type: 'button', className: 'greenbtn btn', caseName: 'green', value: null },
+{ type: 'button', className: 'bluebtn btn', caseName: 'blue', value: null },
+{ type: 'button', className: 'yellowbtn btn', caseName: 'yellow', value: null }];
 
-let singleButtons = [{ type: "button", className: "delete-task btn", caseName: "delete", value: "del" },
-{ type: "button", className: "check-task btn", caseName: "check", value: "check" },
-{ type: "button", className: "redbtn btn", caseName: "red", value: null },
-{ type: "button", className: "greenbtn btn", caseName: "green", value: null },
-{ type: "button", className: "bluebtn btn", caseName: "blue", value: null },
-{ type: "button", className: "yellowbtn btn", caseName: "yellow", value: null }];
-
-function createGroupButton() {
-    groupButtons.map((item) => {
-        let name = document.createElement("input");
-        name.value = item.value;
-        name.type = item.type;
-        name.className = item.className;
-        name.onclick = function (e) {
-            buttonForGroupTasks(e, `${item.caseName}`);
-        }
-        colorButton.prepend(name);
-    })
-}
-createGroupButton();
+groupButtons.map((item) => {
+    let name = document.createElement('input');
+    name.value = item.value;
+    name.type = item.type;
+    name.className = item.className;
+    name.onclick = function (e) {
+        buttonForGroupTasks(e, `${item.caseName}`);
+    }
+    colorButton.prepend(name);
+})
 
 function randomColor(arr) {
     let clr = Math.floor(Math.random() * arr.length);
@@ -45,11 +39,11 @@ function randomColor(arr) {
 function addToDo(task) {
     const toDo = {
         task,
-        complete: false,
-        id: Date.now(),
-        color: randomColor(color),
-        flag: false,
         checked: '',
+        color: randomColor(color),
+        id: Date.now(),
+        complete: false,
+        flag: false,
     };
     toDoItems.push(toDo);
 
@@ -58,12 +52,9 @@ function addToDo(task) {
 }
 
 const form = document.getElementsByClassName('newToDo')[0];
-form.addEventListener('keypress', event => {
-    text = input.value
-    if (event.key === "Enter" && text !== '') {
-        addToDo(form.value)
-        form.value = '';
-    }
+form.addEventListener('keypress', (event) => {
+    text = input.value;
+    (event.key === 'Enter' && text !== '') ? (addToDo(form.value), form.value = '') : null;
 });
 
 function IsJsonString(str) {
@@ -79,25 +70,25 @@ function createlist(arr) {
     arr = IsJsonString(arr)
 
     let listToDelete = document.getElementsByTagName('ul')[0];
-    listToDelete.innerHTML = "";
+    listToDelete.innerHTML = '';
     arr && arr.forEach((itemMain) => {
 
-        const li = document.createElement("li");
+        const li = document.createElement('li');
         li.className = `todo-id ${itemMain.color}`;
         ul.prepend(li);
 
-        const divLeft = document.createElement("div");
-        divLeft.className = "left";
+        const divLeft = document.createElement('div');
+        divLeft.className = 'left';
         li.prepend(divLeft);
 
-        const divRight = document.createElement("div");
-        divRight.className = "right";
+        const divRight = document.createElement('div');
+        divRight.className = 'right';
         li.append(divRight);
 
-        const checkbox = document.createElement("input"); // checkbox
-        checkbox.type = "checkbox";
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
         checkbox.checked = `${itemMain.checked}`;
-        checkbox.className = "check-task btn";
+        checkbox.className = 'check-task btn';
         checkbox.id = `${itemMain.id}`;
         checkbox.onclick = function flag(e) {
             toDoItems.map((item) => {
@@ -107,7 +98,7 @@ function createlist(arr) {
         }
         divLeft.prepend(checkbox);
 
-        const outputText = document.createElement("span");
+        const outputText = document.createElement('span');
         outputText.dataset.key = `${itemMain.complete}`;
         divLeft.append(outputText);
 
@@ -116,7 +107,7 @@ function createlist(arr) {
 
         function createSingleButtons() {
             singleButtons.map((item) => {
-                let name = document.createElement("input");
+                let name = document.createElement('input');
                 name.value = item.value;
                 name.type = item.type;
                 name.className = item.className;
@@ -134,24 +125,30 @@ function createlist(arr) {
 function buttonForGroupTasks(e, r) {
     toDoItems.map((item) => {
         switch (r) {
-            case 'check-task':
+            case 'check-task': {
                 item.flag && (item.complete = !item.complete);
                 break;
-            case 'delete-task':
+            }
+            case 'delete-task': {
                 item.flag && (toDoItems = toDoItems.filter(item => !item.flag));
                 break;
-            case 'redbtn':
+            }
+            case 'redbtn': {
                 item.flag && (item.color = 'red');
                 break;
-            case 'greenbtn':
+            }
+            case 'greenbtn': {
                 item.flag && (item.color = 'green');
                 break;
-            case 'bluebtn':
+            }
+            case 'bluebtn': {
                 item.flag && (item.color = 'blue');
                 break;
-            case 'yellowbtn':
+            }
+            case 'yellowbtn': {
                 item.flag && (item.color = 'yellow');
                 break;
+            }
         }
     })
     createlist(toDoItems);
@@ -162,24 +159,30 @@ function buttonForGroupTasks(e, r) {
 function buttonForSingleTask(e, r) {
     toDoItems.map((item) => {
         switch (r) {
-            case 'check':
+            case 'check': {
                 'check' + item.id == e.target.id && (item.complete = !item.complete);
                 break;
-            case 'delete':
+            }
+            case 'delete': {
                 'delete' + item.id == e.target.id && (toDoItems.splice(toDoItems.indexOf(item), 1));
                 break;
-            case 'red':
+            }
+            case 'red': {
                 'red' + item.id == e.target.id && (item.color = 'red');
                 break;
-            case 'green':
+            }
+            case 'green': {
                 'green' + item.id == e.target.id && (item.color = 'green');
                 break;
-            case 'blue':
+            }
+            case 'blue': {
                 'blue' + item.id == e.target.id && (item.color = 'blue');
                 break;
-            case 'yellow':
+            }
+            case 'yellow': {
                 'yellow' + item.id == e.target.id && (item.color = 'yellow');
                 break;
+            }
         }
     })
     localStorage.setItem('1', JSON.stringify(toDoItems));
